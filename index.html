@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TicketBar | La Patrona Disco Club</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ENCABEZADO Y NAVEGACIÓN -->
+  <header>
+    <div class="logo">
+      <span class="logo-icon"><img src="screen.pgn.png" alt="Logo TicketBar"></span> 
+      <div>
+        <span class="brand-name">Ticket<span>Bar</span></span>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#eventos">Eventos</a></li>
+        <li><a href="#mesas">Plano de Mesas</a></li>
+        <li><a href="login.html" class="btn-nav">Acceso Admin 🔒</a></li>
+      </ul>
+    </nav>
+    <div class="Patrona-logo-container" style.css="display: flex; align-items: center; gap: 10px;">
+        <span class="logo-icon"><img src="logo.pgn.png" alt="Logo La Patrona" style="width: 200px; height: auto;"></span>
+
+        <div style.css="display: flex; flex-direction: column;">
+
+    <span style.css="font-size: 12px; color: white; letter-spacing: 6px;">DISCO CLUB</span> 
+
+    <span class="brand-name" style.css="font-size: 10px; color: white; font-family: inherit; font-weight: bold; letter-spacing: 15px;">LA PATRONA</span>
+    <div>
+    </div>
+  </header>
+
+  <!-- BANNER PRINCIPAL (HERO) -->
+  <section class="hero">
+    
+    <h1>Reserva de Mesas & Control de Acceso</h1>
+    <p>
+      Selecciona tu zona exclusiva, reserva sin costo adicional </strong>
+      y obtén tu pase digital con código QR instantáneo para ingresar a La Patrona.
+    </p>
+    <a href="#reservas" class="btn-primary">Hacer Mi Reserva</a>
+  </section>
+
+  <!-- SECCIÓN DE EVENTOS -->
+  <section class="section" id="eventos">
+    <h2 class="section-title">Próximos Eventos Exclusivos</h2>
+    <div class="events-grid">
+      <div class="event-card">
+        <span class="tag-event">VIERNES</span>
+        <h3>Noche de Solos y Solas VIP</h3>
+        <p>DJ Set en vivo,</p>
+        <button class="btn-select-event" onclick="seleccionarEvento('Noche de Solos y Solas VIP')">Elegir este evento</button>
+      </div>
+      <div class="event-card">
+        <span class="tag-event">SABADO</span>
+        <h3>Cumbia</h3>
+        <p>Lo mejor de la cumbia caucana y animación especial.</p>
+        <button class="btn-select-event" onclick="seleccionarEvento('Noche de Cumbia')">Elegir este evento</button>
+      </div>
+      <div class="event-card">
+        <span class="tag-event">DOMINGO</span>
+        <h3>Gala Fin de Semana </h3>
+        <p>Lo mejor de la rumba caucana.</p>
+        <button class="btn-select-event" onclick="seleccionarEvento('Gala Fin de Semana VIP')">Elegir este evento</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN INTERACTIVA: PLANO DE MESAS Y FORMULARIO -->
+  <section class="section" id="reservas">
+    <h2 class="section-title">Plano Interactivo y Formulario de Reserva</h2>
+<div style="text-align: center; margin-bottom: 20px; color: #fff;">
+    <span>📊 Reservas confirmadas hoy: <strong id="contadorReservas" style="color: #bd00ff; font-size: 1.1rem;">1</strong></span>
+  </div>
+  
+    <div class="booking-container">
+      
+      <!-- PLANO DE MESAS (SELECCIÓN VISUAL) -->
+      <div class="box-card" id="mesas">
+        <h3>📍 Selecciona tu Mesa en el Plano</h3>
+        <p class="hint-text">Haz clic sobre una mesa disponible para seleccionarla automáticamente:</p>
+        
+        <div class="stage-dj">ESCENARIO PRINCIPAL </div>
+
+        <div class="tables-grid">
+          <div class="table-item selected" id="table-VIP-1" onclick="seleccionarMesa('Mesa VIP 1 (4 Personas)', 'table-VIP-1')">
+            <span class="table-id">V1</span>
+            <span class="table-desc">VIP 4 Pers.</span>
+            <span class="table-status">👤Seleccionada</span>
+          </div>
+
+          <div class="table-item" id="table-VIP-2" onclick="seleccionarMesa('Mesa VIP 2 (6 Personas)', 'table-VIP-2')">
+            <span class="table-id">V2</span>
+            <span class="table-desc">VIP 6 Pers.</span>
+            <span class="table-status">✅Disponible</span>
+          </div>
+
+          <div class="table-item" id="table-VIP-3" onclick="seleccionarMesa('Mesa VIP 3 (8 Personas)', 'table-VIP-3')">
+            <span class="table-id">V3</span>
+            <span class="table-desc">VIP 8 Pers.</span>
+            <span class="table-status"✅>Disponible</span>
+          </div>
+
+          <div class="table-item occupied" title="Mesa ya reservada por otro usuario">
+            <span class="table-id">T1</span>
+            <span class="table-desc">Terraza 4p</span>
+            <span class="table-status">Ocupada🔒</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORMULARIO DE RESERVA -->
+      <div class="box-card">
+        <h3>📝 Datos de la Reserva VIP</h3>
+    
+    <!-- BANNER DE CONFIRMACIÓN (Éxito) -->
+    <div class="alert-success">
+        🎉 ¡Reserva confirmada con éxito!
+    </div>
+
+        <form id="reservationForm">
+          <div class="form-group">
+            <label for="nombreCliente">Nombre Completo:</label>
+            <input type="text" id="nombreCliente" class="input-error" placeholder="Ej: Merly Imbachi" value="Merly Imbachi" required />
+          </div>
+
+          <div class="form-group">
+            <label for="correoCliente">Correo Electrónico:</label>
+            <input type="email" id="correoCliente" placeholder="Ej: merlyimbachi16@gmail.com" value="merlyimbachi16@gmail.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="eventoSeleccionado">Evento:</label>
+            <input type="text" id="eventoSeleccionado" value="Noche de solos y solas VIP" readonly />
+          </div>
+
+          <div class="form-group">
+            <label for="mesaSeleccionada">Mesa Seleccionada:</label>
+            <input type="text" id="mesaSeleccionada" value="Mesa VIP 1 (4 Personas)" readonly />
+          </div>
+
+          <div class="price-box">
+            <span>TARIFA TOTAL DE LA RESERVA:</span>
+            <strong>$0 COP (GRATUITA)</strong>
+          </div>
+
+          <button type="submit" class="btn-submit">CONFIRMAR Y GENERAR PASE QR</button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- RESULTADO: PASE DIGITAL DE ACCESO (QR) -->
+  <section class="section" id="paseQRSection" style="display: none;">
+    <div class="ticket-card">
+      <div class="ticket-header">
+        <h3>🎟️ ¡Pase de Acceso Confirmado!</h3>
+        <p>Presenta este código en la entrada de La Patrona Disco Club</p>
+      </div>
+
+      <div class="qr-container" id="qrContainer">
+        <!-- Código QR generado con JavaScript -->
+      </div>
+
+      <div class="ticket-details">
+        <p><strong>Código de Reserva:</strong> <span id="resCodigo">PAT-7892</span></p>
+        <p><strong>Titular:</strong> <span id="resNombre">Merly Imbachi</span></p>
+        <p><strong>Evento:</strong> <span id="resEvento">Noche de solos y solas VIP</span></p>
+        <p><strong>Ubicación:</strong> <span id="resMesa">Mesa VIP 1</span></p>
+        <p class="costo-cero"><strong>Costo Total:</strong> $0 COP (Acceso VIP Confirmado)</p>
+      </div>
+
+      <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Guardar Pase</button>
+    </div>
+  </section>
+
+  <!-- PIE DE PÁGINA -->
+  <footer>
+    <p>Software <strong>TicketBar</strong> • Proyecto Formativo SENA ADSO</p>
+    <p>Desarrollado para: <span>La Patrona Disco Club</span> | Aprendiz: <span>Merly Imbachi</span></p>
+  </footer>
+
+  <!-- SCRIPT JS -->
+  <script src="proyecto.js"></script>
+</body>
+</html>
