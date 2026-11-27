@@ -1,5 +1,4 @@
-// ========================================================
-// ========================================================
+
 
 // Función para seleccionar un evento desde las tarjetas
 function seleccionarEvento(nombreEvento) {
@@ -28,6 +27,7 @@ function seleccionarMesa(nombreMesa, elementoId) {
   const mesaSeleccionada = document.getElementById(elementoId);
   if (mesaSeleccionada) {
     mesaSeleccionada.classList.add('selected');
+    mesaActualId = elementoId;
     const estadoSpan = mesaSeleccionada.querySelector('.table-status');
     if (estadoSpan) estadoSpan.textContent = 'Seleccionada';
   }
@@ -79,6 +79,9 @@ function generarQRVectorial(codigoReserva) {
   `;
 }
 
+let mesaActualId = 'table-VIP-1';
+let totalReservasCount = 1;
+
 // Manejador del Formulario de Reserva
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('reservationForm');
@@ -87,9 +90,20 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', (e) => {
       e.preventDefault(); // Evita recargar la página
 
-      const nombre = document.getElementById('nombreCliente').value;
+      const mesaElemento =
+  document.querySelector('.table-item.selected') ||
+  (mesaActualId ? document.getElementById(mesaActualId) : null);
+      const inputMesa = document.getElementById('mesaSeleccionada');
+
+      // Verificar que haya una mesa válida y disponible seleccionada
+      if (!mesaElemento || mesaElemento.classList.contains('occupied') || !inputMesa || !inputMesa.value.trim()) {
+        alert('⚠️ Esta mesa ya está ocupada o no has seleccionado una mesa disponible.');
+        return;
+      }
+
+      const nombre = document.getElementById('nombreCliente').value.trim();
       const evento = document.getElementById('eventoSeleccionado').value;
-      const mesa = document.getElementById('mesaSeleccionada').value;
+      const mesa = inputMesa.value;
 
       // Generar código único aleatorio tipo PAT-7892
       const codigoAleatorio = 'PAT-' + Math.floor(1000 + Math.random() * 9000);
@@ -100,61 +114,36 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('resEvento').textContent = evento;
       document.getElementById('resMesa').textContent = mesa;
 
-      let totalReservasCount = 1; // Contador global de reservas
+      // Marcar la mesa como ocupada para que no se pueda volver a reservar
+      mesaElemento.classList.remove('selected');
+      mesaElemento.classList.add('occupied');
+      mesaElemento.title = 'Mesa ya reservada por otro usuario';
+      const estadoSpan = mesaElemento.querySelector('.table-status');
+      if (estadoSpan) {
+        estadoSpan.textContent = 'Ocupada 🔒';
+      }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('reservationForm');
+      mesaActualId = null;
+      inputMesa.value = '';
 
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault(); // Evita recargar la página
-
-      const nombre = document.getElementById('nombreCliente').value;
-      const evento = document.getElementById('eventoSeleccionado').value;
-      const mesa = document.getElementById('mesaSeleccionada').value;
-
-      // Generar código único aleatorio tipo PAT-7892
-      const codigoAleatorio = 'PAT-' + Math.floor(1000 + Math.random() * 9000);
-
-      // Asignar los datos al pase digital QR
-      document.getElementById('resCodigo').textContent = codigoAleatorio;
-      document.getElementById('resNombre').textContent = nombre;
-      document.getElementById('resEvento').textContent = evento;
-      document.getElementById('resMesa').textContent = mesa;
-
-      // ----------------------------------------------------
-      // AQUÍ AGREGAS EL CONTADOR DE RESERVAS:
-      // ----------------------------------------------------
+      // Actualizar el contador de reservas confirmadas
       totalReservasCount++;
       const spanContador = document.getElementById('contadorReservas');
       if (spanContador) {
         spanContador.textContent = totalReservasCount;
       }
-      // ----------------------------------------------------
 
-      // Inyectar el QR
+      // Generar y mostrar el código QR vectorial
       const qrBox = document.getElementById('qrContainer');
       if (qrBox) {
         qrBox.innerHTML = generarQRVectorial(codigoAleatorio);
       }
 
-      // Mostrar la sección del Pase Digital y hacer scroll suave hacia él
       const paseSection = document.getElementById('paseQRSection');
-      paseSection.style.display = 'block';
-      paseSection.scrollIntoView({ behavior: 'smooth' });
-    });
-  }
-});
-      // Inyectar el QR
-      const qrBox = document.getElementById('qrContainer');
-      if (qrBox) {
-        qrBox.innerHTML = generarQRVectorial(codigoAleatorio);
+      if (paseSection) {
+        paseSection.style.display = 'block';
+        paseSection.scrollIntoView({ behavior: 'smooth' });
       }
-
-      // Mostrar la sección del Pase Digital y hacer scroll suave hacia él
-      const paseSection = document.getElementById('paseQRSection');
-      paseSection.style.display = 'block';
-      paseSection.scrollIntoView({ behavior: 'smooth' });
     });
   }
 });
